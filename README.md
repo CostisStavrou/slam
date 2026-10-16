@@ -1,6 +1,6 @@
 # Slam
 
-The operating system of Slam Bar, a beach bar in Pelion, Greece. Guests order from their sunbed, staff run the floor from tablets, and a voice agent answers the phone. It runs in production at [slambar.gr](https://slambar.gr).
+The operating system of Slam Bar, a beach bar in Pelion, Greece. Guests order from their sunbed, staff run the floor from tablets, and a voice agent answers the phone.
 
 ## What it does
 
