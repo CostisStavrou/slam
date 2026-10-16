@@ -1,0 +1,11 @@
+# One-shot backup job, triggered nightly by slam-backup.timer.
+[Unit]
+Description=Slam nightly database backup
+
+[Service]
+Type=oneshot
+User=slam
+WorkingDirectory=/home/slam/app
+# Backups live outside the app directory so deploys can never touch them.
+Environment=BACKUP_DIR=/home/slam/backups
+ExecStart=/usr/bin/node server/backup.js

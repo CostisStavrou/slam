@@ -1,0 +1,10 @@
+# Caddy reverse proxy — fetches and renews HTTPS certificates automatically.
+# Install: sudo cp deploy/Caddyfile /etc/caddy/Caddyfile && sudo systemctl reload caddy
+slambar.gr {
+	reverse_proxy localhost:3000
+	encode gzip
+}
+
+www.slambar.gr {
+	redir https://slambar.gr{uri} permanent
+}

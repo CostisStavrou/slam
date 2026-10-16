@@ -1,0 +1,15 @@
+node_modules/
+.next/
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+.DS_Store
+backups/
+
+# Kept out of the public repository
+.claude/
+DEPLOYMENT-TODO.md
+.env
+.env.*
+*.env

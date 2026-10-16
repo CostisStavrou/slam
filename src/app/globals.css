@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Slam design system — three layers.
+   1. Primitives: raw values, taken from the bar itself — the sign (navy panel,
+      yellow lettering) and the plates on the table (ceramic cobalt, Aperol
+      orange, mojito lime, tomato red).
+   2. Semantic: what a colour MEANS. Every screen uses only these names, so
+      changing a primitive re-themes the whole app at once.
+   3. Component: sizes, radii and shadows for buttons, fields and cards.
+   ========================================================================== */
+
+/* ---- 1. Primitives ------------------------------------------------------ */
+:root {
+  --navy-950: #0d1b36; /* sign panel */
+  --navy-800: #1b2c50;
+  --navy-600: #2a4580; /* lighter navy for main buttons */
+  --cobalt-800: #163785;
+  --cobalt-700: #1b44a0; /* the ceramic plate under the burrata */
+  --cobalt-100: #e6ecf8;
+  --slam-400: #f2c21a; /* the yellow "BEACH BAR" lettering — never on white */
+  --aperol-700: #a8460f; /* text on light: 5.9:1 */
+  --aperol-600: #c24a12; /* fills with white text: 4.9:1 */
+  --aperol-100: #fbeadf;
+  --lime-700: #2e5f10;
+  --lime-600: #3d7a17; /* fills with white text: 5.3:1 */
+  --lime-100: #e4f0da;
+  --lime-300: #8fd16a; /* the "open now" light, on navy */
+  --tomato-600: #c2311e; /* 5.6:1 */
+  --tomato-100: #fbe3df;
+  --white: #ffffff;
+  --whitewash-50: #f3f5f9; /* cool Cycladic white, not cream */
+  --slate-200: #dde2ea;
+  --slate-600: #556072; /* muted text on white: 6.4:1 */
+}
+
+/* ---- 2. Semantic (these become Tailwind utilities: bg-sea, text-fog …) --- */
+@theme inline {
+  /* surfaces & text */
+  --color-sand: var(--whitewash-50); /* page */
+  --color-shell: var(--white); /* cards, sheets */
+  --color-ink: var(--navy-950); /* text, dark UI */
+  --color-fog: var(--slate-600); /* secondary text */
+  --color-line: var(--slate-200); /* borders, dividers */
+
+  /* primary action / in progress */
+  --color-sea: var(--cobalt-700);
+  --color-sea-deep: var(--cobalt-800);
+  --color-sea-tint: var(--cobalt-100);
+
+  /* needs attention / waiting */
+  --color-sun: var(--aperol-700);
+  --color-sun-bright: var(--aperol-600);
+  --color-sun-tint: var(--aperol-100);
+
+  /* ready / done / success */
+  --color-palm: var(--lime-600);
+  --color-palm-deep: var(--lime-700);
+  --color-palm-tint: var(--lime-100);
+  --color-palm-glow: var(--lime-300);
+
+  /* late / destructive */
+  --color-coral: var(--tomato-600);
+  --color-coral-tint: var(--tomato-100);
+
+  /* brand */
+  --color-night: var(--navy-950);
+  --color-night-soft: var(--navy-800);
+  --color-action: var(--navy-600); /* main buttons, and what they act on (picked umbrellas) */
+  --color-slam: var(--slam-400);
+
+  --font-sans: var(--font-body-face), system-ui, sans-serif;
+  --font-display: var(--font-display-face), 'Arial Narrow', sans-serif;
+  --font-ui: var(--font-ui-face), system-ui, sans-serif;
+}
+
+/* ---- 3. Component tokens ------------------------------------------------ */
+:root {
+  --tap: 2.75rem; /* 44px: minimum touch target */
+  --radius-control: 0.875rem;
+  --radius-card: 1.25rem;
+  --shadow-card: 0 1px 2px rgb(13 27 54 / 0.05), 0 6px 20px -12px rgb(13 27 54 / 0.18);
+  --shadow-pop: 0 24px 60px -16px rgb(13 27 54 / 0.45);
+  --ring: 0 0 0 3px color-mix(in srgb, var(--cobalt-700) 30%, transparent);
+  --dur: 180ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: var(--tap);
+    padding: 0 1.125rem;
+    border-radius: var(--radius-control);
+    font-weight: 700;
+    line-height: 1.1;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background-color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out),
+      color var(--dur) var(--ease-out), transform 120ms var(--ease-out);
+  }
+  .btn:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  /* Main actions wear the brand navy, like the sidebar and the sign panel */
+  .btn-primary {
+    background: var(--color-action);
+    color: var(--white);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-night-soft);
+  }
+  .btn-quiet {
+    background: var(--color-shell);
+    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+  }
+  .btn-quiet:hover:not(:disabled) {
+    border-color: var(--color-fog);
+  }
+  .btn-danger {
+    background: var(--color-shell);
+    color: var(--color-coral);
+    border: 1px solid var(--color-line);
+  }
+  .btn-danger:hover:not(:disabled) {
+    background: var(--color-coral-tint);
+    border-color: var(--color-coral);
+  }
+
+  .field {
+    width: 100%;
+    min-height: var(--tap);
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-control);
+    background: var(--color-shell);
+    color: var(--color-ink);
+    font-size: 1rem; /* 16px: no iOS zoom on focus */
+    transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+  }
+  .field::placeholder {
+    color: color-mix(in srgb, var(--color-fog) 70%, transparent);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-sea);
+    box-shadow: var(--ring);
+  }
+  .label {
+    display: block;
+    margin-bottom: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-fog);
+  }
+
+  .card {
+    background: var(--color-shell);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Section titles: the condensed display face, in caps */
+  .eyebrow {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-fog);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+button,
+a,
+select,
+summary,
+[role='button'] {
+  cursor: pointer;
+}
+
+/* Big "action needed" signal — glowing pulse that keeps text readable
+   (opacity stays put; only the glow breathes). */
+@keyframes alert-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--glow, rgba(194, 74, 18, 0.5)); }
+  50% { box-shadow: 0 0 0 9px transparent; }
+}
+.alert-pulse {
+  animation: alert-glow 1.6s ease-out infinite;
+}
+
+/* Wrong PIN feedback */
+@keyframes pin-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+.pin-shake {
+  animation: pin-shake 0.4s ease-in-out;
+}
+
+/* Sheets and pop-ups rise into place */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise-in {
+  animation: rise-in 240ms var(--ease-out) both;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 3px solid var(--cobalt-700);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
