@@ -31,6 +31,8 @@ npm run dev
 
 The app starts on <http://localhost:3000>. `node server/seed-demo.js` fills the database with a demo season, so the manager's analytics have data to show. The voice agent needs API keys for Anthropic, Twilio and ElevenLabs, read from environment variables (see `deploy/VOICE-SETUP.md`); everything else works without them.
 
+**Demo logins.** A new, empty database starts with three demo staff so the app can be tried straight away: Manager (PIN 1234), Maria the waiter (1111) and Nikos at the bar (2222). They are for local demos only. Before real use, replace them from the manager screen with your own staff and PINs.
+
 ## Deployment
 
 `deploy/` holds the server setup script, the systemd services, the backup timer and the Caddy configuration. `deploy/README.md` is the step-by-step runbook.
